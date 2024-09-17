@@ -27,3 +27,16 @@ student_input_model = api.model("StudentInput", {
     "name": fields.String,
     "course_id": fields.Integer
 })
+
+event_model = api.model("Event", {
+    "id": fields.Integer,
+    "name": fields.String,
+    "date": fields.DateTime,
+    "description": fields.String
+})
+
+event_input_model = api.model("EventInput", {
+    "name": fields.String,
+    "date": fields.DateTime,
+    "description": fields.String
+})

@@ -5,6 +5,9 @@ from .api_models import student_model
 from .api_models import course_model
 from .api_models import course_input_model
 from .api_models import student_input_model
+from .models import Event
+from .api_models import event_model
+from .api_models import event_input_model
 from .extensions import db
 
 ns = Namespace("api")
@@ -85,4 +88,30 @@ class StudentAPI(Resource):
         student.course_id = ns.payload["course_id"]
         db.session.commit()
         return student
+    
+
+# 1. Create a new model called Event with the following fields: id, name, date, description
+
+@ns.route("/events")
+class EventsListAPI(Resource):
+    @ns.marshal_list_with(event_model)
+    def get(self):
+        return Event.query.all()
+    
+    @ns.expect(event_input_model)
+    @ns.marshal_with(event_model, code=201)
+    def post(self):
+        print(ns.payload)
+        event = Event(name=ns.payload["name"], date=ns.payload["date"], description=ns.payload["description"])
+        db.session.add(event)
+        db.session.commit()
+        return event, 201
+    
+    
+
+
+    # login, logout, registration, event, scholarship, course, student, admin, user, contact us, faq, about us, home
+    #  we need these api endpoints, I have already created student and course, can you do the rest?
+
+
     
